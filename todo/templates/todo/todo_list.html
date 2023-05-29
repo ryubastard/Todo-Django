@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'todo/css/list.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">TodoList</h1>
+        <p class="lead">やることを記入しましょう</p>
+    </div>
+</div>
+<div class="container ">
+    <div>
+        <p class="new-btn"><a href="{% url 'todo:todo_create' %}" class="btn btn-success btn-lg" tabindex="-1"
+                role="button" aria-disabled="true">新規作成</a></p>
+        <p class="new-btn"><a href="{% url 'todo:Logout' %}" class="btn btn-danger btn-lg" tabindex="-1"
+                role="button" aria-disabled="true">ログアウト</a></p>
+    </div>
+    {% for todo in todos %}
+    <div class="one_box">
+        <h1>{{ todo.item_name }}</h1>
+        <h4>{{ todo.user }}</h4>
+        <div class="btns">
+            <p class="btn-content"><a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-info" tabindex="-1"
+                    role="button" aria-disabled="true">編集</a></p>
+            <p class="btn-content"><a href="{% url 'todo:todo_delete' todo.pk %}" class="btn btn-danger" tabindex="-1"
+                    role="button" aria-disabled="true">削除</a></p>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock content %}
