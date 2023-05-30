@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from .forms import LoginForm, TodoForm, CustomUserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.db.models import Q
+
 
 # 会員登録ページに関する処理
 
