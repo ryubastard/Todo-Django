@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">{{ crud }}フォーム</h1>
+<div class="container">
+    <div class="row my-2 justify-content-center">
+        <div class="col-sm-6 alert alert-info">
+            作業を{{ crud }}してください
+        </div>
+    </div>
+    <div class="row my-2 justify-content-center">
+        <div class="col-sm-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                {% if not field.is_hidden %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% else %}
+                {{ field }}
+                {% endif %}
+                {% endfor %}
+                <button type="submit" class="save btn btn-secondary">{{ crud }}</button>
+                <input type="button" value="キャンセル" class="btn btn-outline-primary" onclick="location.href='../';">
+            </form>
+        </div>
     </div>
 </div>
-<div class="container">
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="保存">
-    </form>
-</div>
-<div class="container">
-    <p class="btn-content"><a href="{% url 'todo:todo_list' %}" class="btn btn-info" tabindex="-1" role="button"
-            aria-disabled="true">一覧に戻る</a></p>
 </div>
 {% endblock content %}

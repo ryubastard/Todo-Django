@@ -1,0 +1,23 @@
+.side {
+  display: inline-block;
+}
+
+.finish > td {
+  text-decoration: line-through;
+}
+
+.expire {
+  color: #dc3545 !important;
+}
+
+.container {
+  margin-top: 30px;
+}
+
+@media (min-width: 576px) {
+  .search .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+}

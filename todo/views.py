@@ -48,6 +48,16 @@ class TodoList(LoginRequiredMixin, ListView):
     model = TodoModel
     context_object_name = 'todos'
     template_name = 'todo/todo_list.html'
+    # Todoの一覧をユーザー、検索文字でフィルタして取得する
+    def get_queryset(self):
+        search_param = self.request.GET.get('search') # 検索文字の取得
+        if search_param is None: # 検索文字がない場合
+            query_result = self.model.objects.filter(user=self.request.user) # ログインユーザーでフィルタ
+        else: # 検索文字がある場合
+            query_result = self.model.objects.filter( \
+                Q(item_name__icontains=search_param) | Q(user__username__icontains=search_param), \
+                user=self.request.user)
+        return query_result # 結果を返す
 
 
 # 新規作成画面

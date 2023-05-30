@@ -126,11 +126,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 一番最後に追加してください
-# CSSファイルや画像ファイルが入っている、staticディレクトリの場所をDjango側に教えてあげます。
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'

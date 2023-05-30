@@ -16,6 +16,51 @@
 </head>
 
 <body>
+
+    <div class="bs-component">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <h1 class="navbar-brand mb-0">TODOリスト</h1>
+            {% if not request.user.is_anonymous %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">作業一覧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'todo:todo_create' %}">作業登録</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ request.user }}さん
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'todo:Logout' %}">ログアウト</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">ユーザー登録</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+        </nav>
+    </div>
+
     {% block content %}
     {% endblock content %}
 

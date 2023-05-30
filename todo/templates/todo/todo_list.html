@@ -2,40 +2,70 @@
 {% load static %}
 
 {% block header %}
-<link rel="stylesheet" href="{% static 'todo/css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock header %}
 
 {% block content %}
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">TodoList</h1>
-        <p class="lead">やることを記入しましょう</p>
-    </div>
-</div>
-<div class="container ">
-    <div>
-        <p class="new-btn"><a href="{% url 'todo:todo_create' %}" class="btn btn-success btn-lg" tabindex="-1"
-                role="button" aria-disabled="true">新規作成</a></p>
-        <p class="new-btn"><a href="{% url 'todo:Logout' %}" class="btn btn-danger btn-lg" tabindex="-1" role="button"
-                aria-disabled="true">ログアウト</a></p>
-    </div>
-    {% for todo in todos %}
-    <div class="one_box">
-        <h1>{{ todo.item_name }}</h1>
-        <h4>{{ todo.user }}</h4>
-        <div class="btns">
-            <p class="btn-content"><a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-info" tabindex="-1"
-                    role="button" aria-disabled="true">編集</a></p>
-            <form method="POST" class="side" action="{% url 'todo:todo_delete' %}">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ todo.pk }}">
-                <p class="btn-content">
-                    <button type="submit" class="btn btn-danger">削除</button>
-                </p>
-            </form>
+<div class="container">
+    <section class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">項目名</th>
+                                <th scope="col">担当者</th>
+                                <th scope="col">登録日</th>
+                                <th scope="col">期限日</th>
+                                <th scope="col">完了日</th>
+                                <th scope="col">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for todo in todos %}
+                            {% if not todo.is_deleted %}
+                            {% if todo.finished_date != null %}
+                            <tr class="finish">
+                                {% elif todo.expire %}
+                            <tr class="expire">
+                                {% else %}
+                            <tr>
+                                {% endif %}
+                                <td class="align-middle">{{ todo.item_name }}</td>
+                                <td class="align-middle">{{ todo.user }}</td>
+                                <td class="align-middle">{{ todo.registration_date | date:'Y/m/d' }}</td>
+                                <td class="align-middle">{{ todo.expire_date | date:'Y/m/d' }}</td>
+                                <td class="align-middle">{{ todo.finished_date | date:'Y/m/d' }}</td>
+                                <td class="align-middle button">
+                                    <div class="d-flex">
+                                        <form method="POST" class="mr-2" action="{% url 'todo:todo_complete' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ todo.pk }}">
+                                            <button class="btn btn-primary">完了</button>
+                                        </form>
+                                        <div class="btn-content">
+                                            <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-info mr-2"
+                                                tabindex="-1" role="button" aria-disabled="true">編集</a>
+                                        </div>
+                                        <form method="POST" class="mr-2" action="{% url 'todo:todo_delete' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ todo.pk }}">
+                                            <button class="btn btn-danger">削除</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if search is not None %}
+                    <input type="button" value="戻る" class="btn btn-outline-primary" onclick="location.href='/';">
+                  {% endif %}
+                </div><!-- /example -->
+            </div>
         </div>
-    </div>
-    <hr>
-    {% endfor %}
+    </section>
 </div>
 {% endblock content %}
